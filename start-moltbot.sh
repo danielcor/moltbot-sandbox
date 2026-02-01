@@ -265,6 +265,38 @@ if (isOpenAI) {
     config.agents.defaults.model.primary = 'anthropic/claude-opus-4-5';
 }
 
+// OpenRouter configuration (runs independently of above, can coexist with Anthropic)
+// This allows access to Grok, Kimi, DeepSeek, Gemini, etc. via OpenRouter
+if (process.env.OPENROUTER_API_KEY) {
+    console.log('Configuring OpenRouter provider...');
+    config.models = config.models || {};
+    config.models.providers = config.models.providers || {};
+    
+    // Configure OpenRouter as an OpenAI-compatible provider
+    config.models.providers.openrouter = {
+        baseUrl: 'https://openrouter.ai/api/v1',
+        api: 'openai-chat',
+        apiKey: process.env.OPENROUTER_API_KEY,
+        models: [
+            { id: 'x-ai/grok-4.1-fast', name: 'Grok 4.1 Fast', contextWindow: 131072 },
+            { id: 'moonshotai/moonshot-v1-8k', name: 'Kimi', contextWindow: 8192 },
+            { id: 'deepseek/deepseek-r1', name: 'DeepSeek R1', contextWindow: 64000 },
+            { id: 'google/gemini-2.0-flash-001', name: 'Gemini 2.0 Flash', contextWindow: 1048576 },
+        ]
+    };
+    
+    // Add models to the allowlist
+    config.agents.defaults.models = config.agents.defaults.models || {};
+    config.agents.defaults.models['openrouter/x-ai/grok-4.1-fast'] = { alias: 'Grok 4.1' };
+    config.agents.defaults.models['openrouter/moonshotai/moonshot-v1-8k'] = { alias: 'Kimi' };
+    config.agents.defaults.models['openrouter/deepseek/deepseek-r1'] = { alias: 'DeepSeek' };
+    config.agents.defaults.models['openrouter/google/gemini-2.0-flash-001'] = { alias: 'Gemini 2.0' };
+    
+    // Set OpenRouter's Grok as the primary model (overrides Anthropic default if both present)
+    config.agents.defaults.model.primary = 'openrouter/x-ai/grok-4.1-fast';
+    console.log('OpenRouter configured with Grok 4.1 Fast as primary model');
+}
+
 // Write updated config
 fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 console.log('Configuration updated successfully');

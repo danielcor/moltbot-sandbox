@@ -80,6 +80,7 @@
   // - SLACK_BOT_TOKEN: (optional) Slack bot token
   // - SLACK_APP_TOKEN: (optional) Slack app token
   // - MOLTBOT_GATEWAY_TOKEN: (optional) Token to protect gateway access, if unset device pairing will be used
+  // - OPENROUTER_API_KEY: (optional) OpenRouter API key for access to grok, kimi, deepseek, etc.
   // - CDP_SECRET: (optional) Shared secret for /cdp endpoint authentication
   //
   // R2 persistent storage secrets (required for data persistence across sessions):

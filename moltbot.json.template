@@ -1,7 +1,7 @@
 {
   "agents": {
     "defaults": {
-      "workspace": "~/clawd"
+      "workspace": "/home/brew/clawd"
     }
   },
   "gateway": {

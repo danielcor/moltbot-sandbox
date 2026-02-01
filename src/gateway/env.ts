@@ -30,6 +30,11 @@ export function buildEnvVars(env: MoltbotEnv): Record<string, string> {
   if (!envVars.OPENAI_API_KEY && env.OPENAI_API_KEY) {
     envVars.OPENAI_API_KEY = env.OPENAI_API_KEY;
   }
+  
+  // Pass OpenRouter API key to container
+  if (env.OPENROUTER_API_KEY) {
+    envVars.OPENROUTER_API_KEY = env.OPENROUTER_API_KEY;
+  }
 
   // Pass base URL (used by start-moltbot.sh to determine provider)
   if (normalizedBaseUrl) {

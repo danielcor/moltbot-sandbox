@@ -145,7 +145,7 @@ fi
 node << EOFNODE
 const fs = require('fs');
 
-const configPath = '/root/.clawdbot/clawdbot.json';
+const configPath = '${CONFIG_FILE}';
 console.log('Updating config at:', configPath);
 let config = {};
 

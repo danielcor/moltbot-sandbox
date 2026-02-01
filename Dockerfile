@@ -21,12 +21,17 @@ USER brew
 WORKDIR /home/brew
 RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Add brew to PATH for the brew user
-ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
-RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/brew/.bashrc
+# Set up Homebrew environment - brew installs to /home/linuxbrew/.linuxbrew regardless of username
+ENV HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+ENV PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:${PATH}"
+RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/brew/.bashrc \
+    && /home/linuxbrew/.linuxbrew/bin/brew --version
 
 # Switch back to root for system installations
 USER root
+
+# Remove any stale wrapper scripts from previous builds
+RUN rm -f /usr/local/bin/brew
 
 # Install pnpm globally
 RUN npm install -g pnpm

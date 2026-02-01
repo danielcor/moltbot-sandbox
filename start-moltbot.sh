@@ -29,6 +29,14 @@ echo "Backup directory: $BACKUP_DIR"
 # Create config directory
 mkdir -p "$CONFIG_DIR"
 
+# Fix permissions on R2 backup directory if it exists
+# The R2 mount and its files may be owned by root from previous runs
+# when the container ran as root. We need to fix ownership for the current user.
+if [ -d "$BACKUP_DIR" ] && [ "$(id -u)" -ne 0 ]; then
+    echo "Fixing R2 backup permissions for user $(whoami)..."
+    sudo chown -R "$(id -u):$(id -g)" "$BACKUP_DIR" 2>/dev/null || true
+fi
+
 # ============================================================
 # RESTORE FROM R2 BACKUP
 # ============================================================

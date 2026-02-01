@@ -16,9 +16,10 @@ if pgrep -f "clawdbot gateway" > /dev/null 2>&1; then
 fi
 
 # Paths (clawdbot paths are used internally - upstream hasn't renamed yet)
-CONFIG_DIR="/root/.clawdbot"
+# Use HOME to support running as non-root user (e.g., brew user for Homebrew)
+CONFIG_DIR="${HOME}/.clawdbot"
 CONFIG_FILE="$CONFIG_DIR/clawdbot.json"
-TEMPLATE_DIR="/root/.clawdbot-templates"
+TEMPLATE_DIR="${HOME}/.clawdbot-templates"
 TEMPLATE_FILE="$TEMPLATE_DIR/moltbot.json.template"
 BACKUP_DIR="/data/moltbot"
 

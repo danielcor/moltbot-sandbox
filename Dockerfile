@@ -18,7 +18,14 @@ RUN useradd -m -s /bin/bash linuxbrew \
 USER linuxbrew
 RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 USER root
-ENV PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+
+# Create a wrapper script for brew that runs as linuxbrew user
+# This allows the gateway (running as root) to use brew via sudo
+RUN echo '#!/bin/bash' > /usr/local/bin/brew \
+    && echo 'exec sudo -u linuxbrew /home/linuxbrew/.linuxbrew/bin/brew "$@"' >> /usr/local/bin/brew \
+    && chmod +x /usr/local/bin/brew
+
+ENV PATH="/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
 
 # Install pnpm globally
 RUN npm install -g pnpm

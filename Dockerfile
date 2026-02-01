@@ -70,7 +70,9 @@ RUN chown -R brew:brew /home/brew/clawd/skills/
 WORKDIR /home/brew/clawd
 
 # Run as brew user for Homebrew compatibility
+# Explicitly set HOME since it may not be set correctly when switching users
 USER brew
+ENV HOME=/home/brew
 
 # Expose the gateway port
 EXPOSE 18789

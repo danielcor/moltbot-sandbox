@@ -275,7 +275,7 @@ if (process.env.OPENROUTER_API_KEY) {
     // Configure OpenRouter as an OpenAI-compatible provider
     config.models.providers.openrouter = {
         baseUrl: 'https://openrouter.ai/api/v1',
-        api: 'openai-responses',
+        api: 'openai-completions',
         apiKey: process.env.OPENROUTER_API_KEY,
         models: [
             { id: 'x-ai/grok-4.1-fast', name: 'Grok 4.1 Fast', contextWindow: 131072 },

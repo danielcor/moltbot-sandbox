@@ -113,7 +113,7 @@ describe('syncToR2', () => {
       expect(rsyncCall).toContain('rsync');
       expect(rsyncCall).toContain('--no-times');
       expect(rsyncCall).toContain('--delete');
-      expect(rsyncCall).toContain('/root/.clawdbot/');
+      expect(rsyncCall).toContain('/home/brew/.clawdbot/');
       expect(rsyncCall).toContain('/data/moltbot/');
     });
   });

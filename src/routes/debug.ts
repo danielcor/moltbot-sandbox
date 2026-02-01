@@ -358,7 +358,7 @@ debug.get('/container-config', async (c) => {
   const sandbox = c.get('sandbox');
   
   try {
-    const proc = await sandbox.startProcess('cat /root/.clawdbot/clawdbot.json');
+    const proc = await sandbox.startProcess('cat /home/brew/.clawdbot/clawdbot.json');
     
     let attempts = 0;
     while (attempts < 10) {
